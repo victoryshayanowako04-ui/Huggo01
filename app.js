@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterBalance = document.getElementById('filterBalance');
     const applyBtn = document.getElementById('applyFilters');
     const clearBtn = document.getElementById('clearFilters');
+
+    // Edit Modal Elements
+    const editModal = document.getElementById('editModal');
+    const closeEditModal = document.getElementById('closeEditModal');
+    const editForm = document.getElementById('editForm');
     
     // Data Storage
     let students = JSON.parse(localStorage.getItem('havenStudents')) || [];
@@ -75,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 2. ENROLLMENT (WITH AUTO ID) ---
+    // --- 2. ENROLLMENT ---
     studentForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -105,7 +110,44 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Student Enrolled! STD Number is: ${stdNumber}`);
     });
 
-    // --- 3. PAYMENT & ADVANCED RECEIPT ---
+    // --- 3. EDIT STUDENT LOGIC ---
+    window.openEditModal = (id) => {
+        const student = students.find(s => s.id === id);
+        if (student) {
+            document.getElementById('editId').value = student.id;
+            document.getElementById('editName').value = student.name;
+            document.getElementById('editGender').value = student.gender;
+            document.getElementById('editCell').value = student.cell;
+            document.getElementById('editGrade').value = student.grade;
+            editModal.style.display = 'block'; // Show modal
+        }
+    };
+
+    closeEditModal.addEventListener('click', () => { editModal.style.display = 'none'; });
+    
+    // Close modal if user clicks outside of it
+    window.addEventListener('click', (e) => {
+        if (e.target == editModal) { editModal.style.display = 'none'; }
+    });
+
+    editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editId').value;
+        const student = students.find(s => s.id === id);
+        
+        if (student) {
+            student.name = document.getElementById('editName').value;
+            student.gender = document.getElementById('editGender').value;
+            student.cell = document.getElementById('editCell').value;
+            student.grade = document.getElementById('editGrade').value;
+            
+            localStorage.setItem('havenStudents', JSON.stringify(students));
+            refreshUI();
+            editModal.style.display = 'none';
+        }
+    });
+
+    // --- 4. PAYMENT & ADVANCED RECEIPT ---
     paymentForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const id = selectStudent.value;
@@ -166,14 +208,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <h3>Payment History (Last 12 Months)</h3>
                 <table><tr><th>Date</th><th>Description</th><th>Charge</th><th>Payment</th></tr>${historyHTML}</table>
-                <p style="text-align:center; margin-top:30px; font-style:italic;">Thank you.</p>
             </body></html>
         `);
         win.document.close();
         win.setTimeout(() => { win.print(); }, 500); 
     }
 
-    // --- 4. REPORTING LOGIC ---
+    // --- 5. REPORTING & FILTERS ---
     window.generateReport = (type) => {
         const out = document.getElementById('reportOutput');
         let totalCollected = 0;
@@ -204,10 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    // --- 5. PRINT DIRECTORY ---
-    btnPrintDirectory.addEventListener('click', () => { window.print(); });
-
-    // --- 6. FILTER LOGIC (GRADE, GENDER & BALANCE) ---
     applyBtn.addEventListener('click', () => {
         const gradeVal = filterGrade.value;
         const genderVal = filterGender.value;
@@ -231,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return gradeMatch && genderMatch && balMatch;
         });
-        
         renderTable(filtered);
     });
 
@@ -242,7 +278,9 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTable(students);
     });
 
-    // --- 7. UI REFRESH & DRAWING ---
+    btnPrintDirectory.addEventListener('click', () => { window.print(); });
+
+    // --- 6. UI REFRESH & DRAWING ---
     function refreshUI() {
         renderTable(students);
         updateDropdowns();
@@ -270,7 +308,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${s.grade}</td>
                     <td><small>Due: $${totalCharges}<br>Paid: $${totalPaid}<br><strong>Bal: $${bal}</strong></small></td>
                     <td class="hide-on-print">
-                        <span class="${bal <= 0 ? 'status-paid' : (totalPaid > 0 ? 'status-partial' : 'status-pending')}">${bal <= 0 ? 'PAID' : 'DUE'}</span>
+                        <span class="${bal <= 0 ? 'status-paid' : (totalPaid > 0 ? 'status-partial' : 'status-pending')}">${bal <= 0 ? 'PAID' : 'DUE'}</span><br>
+                        <button onclick="openEditModal('${s.id}')" style="background:#f39c12; font-size:10px; padding:3px 8px; margin-top:5px; width:auto;">Edit Profile</button>
                     </td>
                 </tr>
             `;

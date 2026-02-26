@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Haven School Management</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -32,11 +33,7 @@
             <form id="studentForm">
                 <input type="text" id="studentName" placeholder="Full Name" required>
                 <input type="date" id="studentDOB" required>
-                <select id="studentGender" required>
-                    <option value="">Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
+                <select id="studentGender" required><option value="">Gender</option><option value="Male">Male</option><option value="Female">Female</option></select>
                 <input type="text" id="studentCell" placeholder="Cell Number" required>
                 
                 <select id="studentGrade" required>
@@ -97,7 +94,6 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; flex-wrap: wrap; gap: 15px;">
             <div>
                 <h3 style="margin-bottom: 10px;">Student Directory & Defaulters List</h3>
-                
                 <div class="filter-panel hide-on-print">
                     <div class="filter-group">
                         <label>Filter Grade:</label>
@@ -118,8 +114,7 @@
                         <label>Filter Gender:</label>
                         <select id="filterGender">
                             <option value="All">All Genders</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="Male">Male</option><option value="Female">Female</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -134,7 +129,6 @@
                     <button id="clearFilters" style="background: #7f8c8d; width: auto; height: 38px; padding: 0 15px;">Clear</button>
                 </div>
             </div>
-            
             <button id="btnPrintDirectory" style="background: #2c3e50; padding: 10px 20px; font-size: 14px; width: auto; height: 40px;">🖨️ Print List</button>
         </div>
 
@@ -157,7 +151,6 @@
         <form id="settingsForm" style="margin-top: 15px;">
             <input type="text" id="setSchoolName" placeholder="School Name">
             <input type="text" id="setAdminPassword" placeholder="New Admin Password">
-            
             <div style="grid-column: span 2; background: #fdf2e9; padding: 10px; border-radius: 5px;">
                 <label style="font-size: 12px; font-weight: bold;">Student ID Generator Setup:</label>
                 <div style="display: flex; gap: 10px; margin-top: 5px;">
@@ -165,13 +158,46 @@
                     <input type="number" id="setStartNum" placeholder="Next Number (e.g. 1000)" style="width: 50%;">
                 </div>
             </div>
-
             <div style="grid-column: span 2;">
                 <label style="font-size: 12px; font-weight: bold;">School Logo:</label>
                 <input type="file" id="setSchoolLogo" accept="image/*">
             </div>
-            
             <button type="submit" style="background: #e74c3c;">Save Settings & Lock</button>
+        </form>
+    </div>
+</div>
+
+<div id="editModal" class="modal hide-on-print">
+    <div class="modal-content">
+        <span class="close-btn" id="closeEditModal">&times;</span>
+        <h3 style="margin-bottom: 15px; color: #2c3e50;">Edit Student Profile</h3>
+        <form id="editForm">
+            <input type="hidden" id="editId">
+            <label style="font-size: 12px; font-weight: bold;">Full Name</label>
+            <input type="text" id="editName" required style="grid-column: span 2;">
+            
+            <label style="font-size: 12px; font-weight: bold;">Gender</label>
+            <select id="editGender" required style="grid-column: span 2;">
+                <option value="Male">Male</option><option value="Female">Female</option>
+            </select>
+            
+            <label style="font-size: 12px; font-weight: bold;">Cell Number</label>
+            <input type="text" id="editCell" required style="grid-column: span 2;">
+            
+            <label style="font-size: 12px; font-weight: bold;">Current Grade</label>
+            <select id="editGrade" required style="grid-column: span 2;">
+                <option value="ECD A">ECD A</option><option value="ECD B">ECD B</option>
+                <option value="Grade 1">Grade 1</option><option value="Grade 2">Grade 2</option>
+                <option value="Grade 3">Grade 3</option><option value="Grade 4">Grade 4</option>
+                <option value="Grade 5">Grade 5</option><option value="Grade 6">Grade 6</option>
+                <option value="Grade 7">Grade 7</option>
+                <option value="Form 1">Form 1</option><option value="Form 2">Form 2</option>
+                <option value="Form 3">Form 3</option><option value="Form 4">Form 4</option>
+                <option value="Form 5">Form 5</option><option value="Form 6">Form 6</option>
+                <option value="External Student">External Student</option>
+            </select>
+            
+            <button type="submit" style="background: #f39c12; margin-top: 10px;">Save Profile Changes</button>
         </form>
     </div>
 </div>
