@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haven School Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h3>Haven School</h3>
+    <a href="#" class="active">Dashboard</a>
+    <a href="#">Students</a>
+    <a href="#">Fees & Finance</a>
+    <a href="#">Reports</a>
+    <div style="margin-top: 50px; padding: 15px; font-size: 12px; color: #bdc3c7;">
+        System Version 1.0
+    </div>
+</div>
+
+<div class="main-content">
+    <header>
+        <h1>Student Management</h1>
+        <p>Enroll new students and manage tuition payments.</p>
+    </header>
+
+    <div class="card">
+        <h3>New Student Enrollment</h3>
+        <hr style="margin-bottom: 20px; border: 0; border-top: 1px solid #eee;">
+        
+        <form id="studentForm">
+            <input type="text" id="studentName" placeholder="Full Name (First & Last)" required>
+            
+            <input type="date" id="studentDOB" title="Date of Birth" required>
+            
+            <select id="studentGender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <input type="text" id="studentCell" placeholder="Cell Number (e.g. 0771...)" required>
+            
+            <select id="studentGrade" required>
+                <option value="">Select Grade</option>
+                <option value="Form 1">Form 1</option>
+                <option value="Form 2">Form 2</option>
+                <option value="Form 3">Form 3</option>
+                <option value="Form 4">Form 4</option>
+                <option value="Lower 6">Lower 6</option>
+                <option value="Upper 6">Upper 6</option>
+            </select>
+
+            <input type="text" id="studentAddress" placeholder="Physical Home Address" required>
+            
+            <select id="feeStatus" required>
+                <option value="Pending">Payment Status: Pending</option>
+                <option value="Paid">Payment Status: Paid</option>
+            </select>
+
+            <button type="submit">Complete Enrollment</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3>Student Directory</h3>
+            <input type="text" id="searchBar" placeholder="Search by name..." style="width: 250px; padding: 8px;">
+        </div>
+        
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Student Details</th>
+                    <th>Grade</th>
+                    <th>Fee Status & Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
